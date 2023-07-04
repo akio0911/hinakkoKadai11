@@ -8,28 +8,31 @@
 import UIKit
 
 class PrefectureViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    let data = PrefectureData()
-    var selectedPrefecture: String?
+    private let prefectureNames = PrefectureData().prefectureList
+    private(set) var selectedPrefecture: String?
 
     @IBOutlet weak var tableview: UITableView!
-//データソースにテーブルビュー内のセクションの数を返すように要求します。
+
+    //データソースにテーブルビュー内のセクションの数を返すように要求します。
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        1
     }
-//テーブル ビューの特定のセクションの行数を返すようにデータ ソースに指示します。
+
+    //テーブル ビューの特定のセクションの行数を返すようにデータ ソースに指示します。
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.prefectureList.count
+        prefectureNames.count
     }
-//テーブルビューの特定の場所にセルを挿入するようにデータソースに要求。表示する内容をつくってセルに返す。
+
+    //テーブルビューの特定の場所にセルを挿入するようにデータソースに要求。表示する内容をつくってセルに返す。
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell1", for: indexPath) as UITableViewCell
-        cell.textLabel?.text = data.prefectureList[indexPath.row]
+        cell.textLabel?.text = prefectureNames[indexPath.row]
         return cell
     }
-//行が選択されていることをデリゲートに伝える。didSelectRowAtがCellを触ったといことを感知している。
+
+    //行が選択されていることをデリゲートに伝える。didSelectRowAtがCellを触ったといことを感知している。
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let prefecture = data.prefectureList[indexPath.row]
-        self.selectedPrefecture = prefecture
+        selectedPrefecture = prefectureNames[indexPath.row]
         performSegue(withIdentifier: "toNext", sender: nil)
     }
 }
